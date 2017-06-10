@@ -143,3 +143,16 @@ class RenanBr\BibTexParser\Listener implements RenanBr\BibTexParser\ListenerInte
     public function bibTexUnitFound(string $text, array $context): void;
 }
 ```
+
+### Tag Value Processors
+#### RenanBr\BibTexParser\Processor\AuthorProcessor
+BibTex recognizes four parts of an author's name: First Von Last Jr.
+If you would like to parse the author names included in your entries, you can use the `RenanBr\BibTexParser\AuthorProcessor`
+class. Before exporting the contents, add this processor:
+
+```php
+$listener->setTagValueProcessor(new RenanBr\BibTexParser\Processor\AuthorProcessor());
+$entries = $listener->export();
+```
+
+The resulting `$entries[0]['author']` will then be an array with each author name separated in the four parts above.
