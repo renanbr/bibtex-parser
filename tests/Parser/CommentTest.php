@@ -41,4 +41,31 @@ class CommentTest extends TestCase
 
         $this->assertCount(0, $listener->calls);
     }
+
+    public function testJabRefComments()
+    {
+        $listener = new DummyListener();
+
+        $parser = new Parser();
+        $parser->addListener($listener);
+        $parser->parseFile(__DIR__.'/../resources/valid/comment-jabref.bib');
+
+        $this->assertCount(4, $listener->calls);
+
+        list($text, $type, $context) = $listener->calls[0];
+        $this->assertSame(Parser::TYPE, $type);
+        $this->assertSame('jabref', $text);
+
+        list($text, $type, $context) = $listener->calls[1];
+        $this->assertSame(Parser::TAG_NAME, $type);
+        $this->assertSame('foo', $text);
+
+        list($text, $type, $context) = $listener->calls[2];
+        $this->assertSame(Parser::RAW_TAG_CONTENT, $type);
+        $this->assertSame('bar', $text);
+
+        list($text, $type, $context) = $listener->calls[3];
+        $this->assertSame(Parser::ENTRY, $type);
+        $this->assertSame('@jabref{foo=bar}', $text);
+    }
 }
