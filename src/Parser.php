@@ -217,6 +217,17 @@ class Parser
             $this->appendToBuffer($char);
         } else {
             $this->throwExceptionIfBufferIsEmpty($char);
+
+            // Skips @comment type
+            if ('comment' === mb_strtolower($this->buffer)) {
+                $this->buffer = '';
+                $this->bufferOffset = null;
+                $this->state = self::COMMENT;
+                $this->readComment($char);
+
+                return;
+            }
+
             $this->triggerListenersWithCurrentBuffer();
 
             // once $char isn't a valid character
@@ -386,6 +397,21 @@ class Parser
      */
     private function readOriginalEntry($char, $previousState)
     {
+        // Ignores comment entry
+        // Detecting this case is possible because an entry must pass at least
+        // by the POST_TYPE, where "{" is detected. The abrupt change (from TYPE
+        // to NONE or COMMENT) means the entry reading was
+        $isComment = self::TYPE === $previousState && (
+            self::NONE === $this->state ||
+            self::COMMENT === $this->state
+        );
+        if ($isComment) {
+            $this->originalEntryBuffer = '';
+            $this->originalEntryOffset = null;
+
+            return;
+        }
+
         // Checks whether we are reading an entry character or not
         $isPreviousStateEntry = $this->isEntryState($previousState);
         $isCurrentStateEntry = $this->isEntryState($this->state);

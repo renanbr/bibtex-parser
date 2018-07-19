@@ -31,38 +31,41 @@ class CommentTest extends TestCase
         $this->assertCount(0, $listener->calls);
     }
 
-    public function testFileThatContainsEntryAndComment()
+    public function testCommenEntryMustBeIgnored()
     {
         $listener = new DummyListener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/comment.bib');
+        $parser->parseFile(__DIR__.'/../resources/valid/comment-entry.bib');
+
+        $this->assertCount(0, $listener->calls);
+    }
+
+    public function testJabRefComments()
+    {
+        $listener = new DummyListener();
+
+        $parser = new Parser();
+        $parser->addListener($listener);
+        $parser->parseFile(__DIR__.'/../resources/valid/comment-jabref.bib');
 
         $this->assertCount(4, $listener->calls);
 
         list($text, $type, $context) = $listener->calls[0];
         $this->assertSame(Parser::TYPE, $type);
-        $this->assertSame('comment', $text);
-        $this->assertSame(19, $context['offset']);
-        $this->assertSame(7, $context['length']);
+        $this->assertSame('jabref', $text);
 
         list($text, $type, $context) = $listener->calls[1];
         $this->assertSame(Parser::TAG_NAME, $type);
         $this->assertSame('foo', $text);
-        $this->assertSame(27, $context['offset']);
-        $this->assertSame(3, $context['length']);
 
         list($text, $type, $context) = $listener->calls[2];
         $this->assertSame(Parser::RAW_TAG_CONTENT, $type);
         $this->assertSame('bar', $text);
-        $this->assertSame(33, $context['offset']);
-        $this->assertSame(3, $context['length']);
 
         list($text, $type, $context) = $listener->calls[3];
         $this->assertSame(Parser::ENTRY, $type);
-        $this->assertSame('@comment{foo = bar}', $text);
-        $this->assertSame(18, $context['offset']);
-        $this->assertSame(19, $context['length']);
+        $this->assertSame('@jabref{foo=bar}', $text);
     }
 }
