@@ -27,7 +27,7 @@ before_script:
     - composer install --no-interaction
 
 script:
-    - ./vendor/bin/phpstan analyse -l 6 src tests --no-interaction --no-progress
+    - ./vendor/bin/phpstan analyse -l 1 src --no-interaction --no-progress
     - ./vendor/bin/phpunit --coverage-clover=coverage.xml
 
 after_success:
