@@ -11,6 +11,8 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
+use Pandoc\Pandoc;
+use Pandoc\PandocException;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
@@ -21,6 +23,17 @@ use RenanBr\BibTexParser\Processor\LatexToUnicodeProcessor;
  */
 class LatexToUnicodeProcessorTest extends TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+
+        try {
+            new Pandoc();
+        } catch (PandocException $pandocException) {
+            self::markTestSkipped($pandocException->getMessage());
+        }
+    }
+
     public function testTextAsInput()
     {
         $processor = new LatexToUnicodeProcessor();
