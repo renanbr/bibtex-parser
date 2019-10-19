@@ -30,7 +30,9 @@ class LatexToUnicodeProcessorTest extends TestCase
         try {
             new Pandoc();
         } catch (PandocException $pandocException) {
-            self::markTestSkipped($pandocException->getMessage());
+            if ($pandocException->getMessage() === 'Unable to locate pandoc') {
+                self::markTestSkipped($pandocException->getMessage());
+            }
         }
     }
 
