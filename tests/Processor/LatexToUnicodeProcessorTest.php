@@ -23,7 +23,8 @@ class LatexToUnicodeProcessorTest extends TestCase
 {
     protected function setUp()
     {
-        if (!shell_exec('which pandoc')) {
+        exec('which pandoc', $output, $retVal);
+        if ($retVal !== 0) {
             $this->markTestSkipped(
                 'Pandoc is not installed, skiping this test'
             );
