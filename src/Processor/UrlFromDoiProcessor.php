@@ -11,22 +11,35 @@
 
 namespace RenanBr\BibTexParser\Processor;
 
+use RenanBr\BibTexParser\Exception\ProcessorException;
+
 class UrlFromDoiProcessor
 {
-    use TagCoverageTrait;
+    use TagSearchTrait;
+
+    private $urlDoiPrefix;
+
+    public function __construct($urlDoiPrefix = 'https://doi.org')
+    {
+        $this->urlDoiPrefix = $urlDoiPrefix;
+    }
 
     /**
      * @param array $entry
      *
      * @return array
+     * @throws ProcessorException
      */
     public function __invoke(array $entry)
     {
-        $covered = $this->getCoveredTags(array_keys($entry));
-        foreach ($covered as $tag) {
-            if ($tag === 'doi') {
-                $entry['url'] = 'https://doi.org/' . $entry[$tag];
+        $doiTag = $this->tagSearch('doi', array_keys($entry));
+        $urlTag = $this->tagSearch('url', array_keys($entry));
+        if ($urlTag === null && $doiTag !== null) {
+            $doiValue = $entry[$doiTag];
+            if ($doiValue === '') {
+                throw new ProcessorException('doi tag should not be empty');
             }
+            $entry['url'] = $this->urlDoiPrefix . '/' . $doiValue;
         }
         return $entry;
     }
