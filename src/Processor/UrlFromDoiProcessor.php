@@ -11,7 +11,7 @@
 
 namespace RenanBr\BibTexParser\Processor;
 
-use RenanBr\BibTexParser\Exception\ProcessorException;
+use RenanBr\BibTexParser\Constant;
 
 class UrlFromDoiProcessor
 {
@@ -19,7 +19,7 @@ class UrlFromDoiProcessor
 
     private $urlDoiPrefix;
 
-    public function __construct($urlDoiPrefix = 'https://doi.org')
+    public function __construct($urlDoiPrefix = null)
     {
         $this->urlDoiPrefix = $urlDoiPrefix;
     }
@@ -28,7 +28,6 @@ class UrlFromDoiProcessor
      * @param array $entry
      *
      * @return array
-     * @throws ProcessorException
      */
     public function __invoke(array $entry)
     {
@@ -36,10 +35,13 @@ class UrlFromDoiProcessor
         $urlTag = $this->tagSearch('url', array_keys($entry));
         if ($urlTag === null && $doiTag !== null) {
             $doiValue = $entry[$doiTag];
-            if ($doiValue === '') {
-                throw new ProcessorException('doi tag should not be empty');
+            if ($doiValue !== '') {
+                if ($this->urlDoiPrefix !== null) {
+                    $entry['url'] = $this->urlDoiPrefix . '/' . $doiValue;
+                } else {
+                    $entry['url'] = sprintf(Constant::$URL_DOI_FORMAT, $doiValue);
+                }
             }
-            $entry['url'] = $this->urlDoiPrefix . '/' . $doiValue;
         }
         return $entry;
     }
