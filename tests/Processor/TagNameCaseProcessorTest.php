@@ -24,7 +24,7 @@ class TagNameCaseProcessorTest extends TestCase
     public function testLower()
     {
         $listener = new Listener();
-        $listener->addProcessor(new TagNameCaseProcessor(CASE_LOWER));
+        $listener->addProcessor(new TagNameCaseProcessor(\CASE_LOWER));
 
         $parser = new Parser();
         $parser->addListener($listener);
@@ -40,7 +40,7 @@ class TagNameCaseProcessorTest extends TestCase
     public function testUpper()
     {
         $listener = new Listener();
-        $listener->addProcessor(new TagNameCaseProcessor(CASE_UPPER));
+        $listener->addProcessor(new TagNameCaseProcessor(\CASE_UPPER));
 
         $parser = new Parser();
         $parser->addListener($listener);

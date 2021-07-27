@@ -13,9 +13,9 @@ namespace RenanBr\BibTexParser\Processor;
 
 class UrlFromDoiProcessor
 {
-    const FORMAT = 'https://doi.org/%s';
-
     use TagSearchTrait;
+
+    const FORMAT = 'https://doi.org/%s';
 
     /**
      * @var string

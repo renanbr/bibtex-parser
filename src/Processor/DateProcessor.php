@@ -15,9 +15,8 @@ use DateTimeImmutable;
 
 class DateProcessor
 {
-    const TAG_NAME = '_date';
-
     use TagSearchTrait;
+    const TAG_NAME = '_date';
 
     /**
      * @var string
