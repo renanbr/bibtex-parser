@@ -419,7 +419,7 @@ You might want to read them as unicode instead.
 The `LatexToUnicodeProcessor` class solves this problem, but before adding the processor to the listener you must:
 
 - [install Pandoc](http://pandoc.org/installing.html) in your system; and
-- add [ryakad/pandoc-php](https://github.com/ryakad/pandoc-php) as a dependency of your project.
+- add [ryakad/pandoc-php](https://github.com/ryakad/pandoc-php) or [ueberdosis/pandoc](https://github.com/ueberdosis/pandoc) as a dependency of your project.
 
 <details><summary>Usage</summary>
 
