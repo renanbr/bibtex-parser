@@ -15,6 +15,7 @@ use Composer\InstalledVersions;
 use Exception;
 use Pandoc\Pandoc;
 use RenanBr\BibTexParser\Exception\ProcessorException;
+use RuntimeException;
 
 /**
  * Translates LaTeX texts to unicode.
@@ -23,8 +24,8 @@ class LatexToUnicodeProcessor
 {
     use TagCoverageTrait;
 
-    /** @var Pandoc|null */
-    private $pandoc;
+    /** @var (callable(string): string)|null */
+    private $converter;
 
     /**
      * @return array
@@ -53,16 +54,6 @@ class LatexToUnicodeProcessor
     }
 
     /**
-     * Returns true if the ueberdosis/pandoc package is installed, otherwise returns false.
-     *
-     * @return bool
-     */
-    private function isUeberdosisPandocAvailable()
-    {
-        return InstalledVersions::isInstalled('ueberdosis/pandoc');
-    }
-
-    /**
      * @param mixed $text
      *
      * @return string
@@ -70,32 +61,43 @@ class LatexToUnicodeProcessor
     private function decode($text)
     {
         try {
-            if (!$this->pandoc) {
-                $this->pandoc = new Pandoc();
-            }
+            return $this->getConverter()($text);
+        } catch (Exception $exception) {
+            throw new ProcessorException(sprintf('Error while processing LaTeX to Unicode: %s', $exception->getMessage()), 0, $exception);
+        }
+    }
 
-            if ($this->isUeberdosisPandocAvailable()) {
-                // use ueberdosis/pandoc
-                $output = $this->pandoc->input($text)->execute([
+    /**
+     * @return (callable(string): string)
+     */
+    private function getConverter()
+    {
+        if ($this->converter) {
+            return $this->converter;
+        }
+
+        if (InstalledVersions::isInstalled('ueberdosis/pandoc')) {
+            $pandoc = new Pandoc();
+
+            return $this->converter = function ($text) use ($pandoc) {
+                return substr($pandoc->input($text)->execute([
                     '--from', 'latex',
                     '--to', 'plain',
                     '--wrap', 'none',
-                ]);
+                ]), 0, -1);
+            };
+        } else if (InstalledVersions::isInstalled('ryakad/pandoc-php')) {
+            $pandoc = new Pandoc();
 
-                // remove newline character added by Pandoc conversion
-                $output = substr($output, 0, -1);
-            } else {
-                // use ryakad/pandoc-php
-                $output = $this->pandoc->runWith($text, [
+            return $this->converter = function ($text) use ($pandoc) {
+                return $pandoc->runWith($text, [
                     'from' => 'latex',
                     'to' => 'plain',
                     'wrap' => 'none',
                 ]);
-            }
-
-            return $output;
-        } catch (Exception $exception) {
-            throw new ProcessorException(sprintf('Error while processing LaTeX to Unicode: %s', $exception->getMessage()), 0, $exception);
+            };
         }
+
+        throw new RuntimeException('Pandoc wrapper not installed. Try running "composer require ueberdosis/pandoc"');
     }
 }
