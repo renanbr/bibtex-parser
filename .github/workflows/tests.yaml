@@ -21,6 +21,8 @@ jobs:
                 include:
                     - php-version: '8.0'
                       coverage: true
+                    - php-version: '8.2'
+                      with-ueberdosis-pandoc: true
 
         steps:
 
@@ -38,6 +40,12 @@ jobs:
 
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v2
+
+            - name: Install Pandoc wrapper
+              if: ${{ matrix.with-ueberdosis-pandoc }}
+              run: |
+                composer remove --dev ryakad/pandoc-php
+                composer require --dev ueberdosis/pandoc
 
             - name: Run PHPUnit
               run: vendor/bin/phpunit --testdox ${{ matrix.coverage && '--coverage-clover ./coverage.xml' || '--no-coverage' }}

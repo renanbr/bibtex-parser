@@ -61,7 +61,7 @@ class LatexToUnicodeProcessor
     private function decode($text)
     {
         try {
-            return $this->getConverter()($text);
+            return \call_user_func($this->getConverter(), $text);
         } catch (Exception $exception) {
             throw new ProcessorException(sprintf('Error while processing LaTeX to Unicode: %s', $exception->getMessage()), 0, $exception);
         }
@@ -79,17 +79,18 @@ class LatexToUnicodeProcessor
         if (InstalledVersions::isInstalled('ueberdosis/pandoc')) {
             $pandoc = new Pandoc();
 
-            return $this->converter = function ($text) use ($pandoc) {
-                return substr($pandoc->input($text)->execute([
+            return $this->converter = static function ($text) use ($pandoc) {
+                // @phpstan-ignore-next-line
+                return mb_substr($pandoc->input($text)->execute([
                     '--from', 'latex',
                     '--to', 'plain',
                     '--wrap', 'none',
                 ]), 0, -1);
             };
-        } else if (InstalledVersions::isInstalled('ryakad/pandoc-php')) {
+        } elseif (InstalledVersions::isInstalled('ryakad/pandoc-php')) {
             $pandoc = new Pandoc();
 
-            return $this->converter = function ($text) use ($pandoc) {
+            return $this->converter = static function ($text) use ($pandoc) {
                 return $pandoc->runWith($text, [
                     'from' => 'latex',
                     'to' => 'plain',
