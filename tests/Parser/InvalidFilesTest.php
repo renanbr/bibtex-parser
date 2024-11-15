@@ -40,7 +40,7 @@ class InvalidFilesTest extends TestCase
         $parser->parseFile($file);
     }
 
-    public function invalidFileProvider()
+    public static function invalidFileProvider()
     {
         $dir = __DIR__.'/../resources/invalid';
 
