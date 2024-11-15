@@ -27,7 +27,7 @@ jobs:
         steps:
 
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -35,11 +35,11 @@ jobs:
                   php-version: ${{ matrix.php-version }}
                   coverage: ${{ matrix.coverage && 'pcov' || 'none' }}
 
-            - name: Install Pandoc
-              run: sudo apt install pandoc
+            - name: Install pandoc
+              uses: pandoc/actions/setup@v1
 
             - name: Install Composer dependencies
-              uses: ramsey/composer-install@v2
+              uses: ramsey/composer-install@v3
 
             - name: Install Pandoc wrapper
               if: ${{ matrix.with-ueberdosis-pandoc }}
