@@ -36,7 +36,7 @@ class StringParsingTest extends TestCase
         $this->assertSame($listenerFile->calls, $listenerString->calls);
     }
 
-    public function validFileProvider()
+    public static function validFileProvider()
     {
         $dir = __DIR__.'/../resources/valid';
 
