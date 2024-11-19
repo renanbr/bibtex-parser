@@ -45,7 +45,7 @@ class DateProcessor
                 list($day, $month) = $monthArray;
                 $day = (int) $day;
                 $dateMonthNumber = date_parse($month);
-                $month = $dateMonthNumber['month'] ?: null;
+                $month = $dateMonthNumber['month'] ?: 0;
                 if (checkdate($month, $day, $year)) {
                     $timestamp = mktime(0, 0, 0, $month, $day, $year);
                     $entry[$this->tagName] = new DateTimeImmutable(date('Y-m-d', $timestamp), new \DateTimeZone('UTC'));
