@@ -18,7 +18,7 @@ class TrimProcessor
 {
     use TagCoverageTrait;
 
-    public function __construct(array $fields = null)
+    public function __construct(array $fields = [])
     {
         if ($fields) {
             $this->setTagCoverage($fields);

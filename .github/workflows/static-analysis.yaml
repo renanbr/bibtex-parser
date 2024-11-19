@@ -23,7 +23,7 @@ jobs:
             - name: Setup tools
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: 7.4
+                  php-version: 8.3
                   tools: phpstan:1, cs2pr
                   coverage: none
 
