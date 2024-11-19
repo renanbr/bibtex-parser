@@ -18,19 +18,20 @@ jobs:
         steps:
 
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             - name: Setup tools
               uses: shivammathur/setup-php@v2
               with:
                   php-version: 7.4
-                  tools: phpstan, cs2pr
+                  tools: phpstan:1, cs2pr
+                  coverage: none
 
             - name: Install Composer dependencies
-              uses: ramsey/composer-install@v2
+              uses: ramsey/composer-install@v3
 
             - name: Cache PHPStan
-              uses: actions/cache@v2
+              uses: actions/cache@v4
               with:
                   path: var/phpstan/
                   key: phpstan-${{ github.sha }}

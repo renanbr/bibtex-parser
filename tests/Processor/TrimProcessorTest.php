@@ -33,7 +33,7 @@ class TrimProcessorTest extends TestCase
         $this->assertSame($expectedEntry, $processor($entry));
     }
 
-    public function entriesProvider()
+    public static function entriesProvider()
     {
         return [
             'basicEntry' => [
