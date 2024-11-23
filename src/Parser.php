@@ -266,7 +266,7 @@ class Parser
      */
     private function readTagName($char)
     {
-        if (preg_match('/^[a-zA-Z0-9_\+:\-\.\/\x{00C0}-\x{01FF}]$/u', $char)) {
+        if (preg_match('/^[a-zA-Z0-9_\&\+:\-\.\/\x{00C0}-\x{01FF}]$/u', $char)) {
             $this->appendToBuffer($char);
         } elseif ($this->isWhitespace($char) && empty($this->buffer)) {
             // Skips because we didn't start reading
