@@ -11,10 +11,9 @@
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
-    <coverage cacheDirectory="var/phpunit/code-coverage"
-              processUncoveredFiles="true">
+    <source restrictDeprecations="true" restrictNotices="true" restrictWarnings="true">
         <include>
-            <directory suffix=".php">src/</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>
