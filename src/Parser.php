@@ -122,9 +122,10 @@ class Parser
      */
     private function parse($text)
     {
-        $length = mb_strlen($text);
+        $text = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+        $length = count($text);
         for ($position = 0; $position < $length; ++$position) {
-            $char = mb_substr($text, $position, 1);
+            $char = $text[$position];
             $this->read($char);
             if ("\n" === $char) {
                 ++$this->line;
