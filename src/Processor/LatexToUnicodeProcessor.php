@@ -54,8 +54,6 @@ class LatexToUnicodeProcessor
     }
 
     /**
-     * @param mixed $text
-     *
      * @return string
      */
     private function decode($text)

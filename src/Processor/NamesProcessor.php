@@ -74,9 +74,9 @@ class NamesProcessor
                 $tmparray = [];
                 $tmparray = preg_split('/[\s\~]/', $author);
                 $size = \count($tmparray);
-                if (1 === $size) { //There is only a last
+                if (1 === $size) { // There is only a last
                     $last = $tmparray[0];
-                } elseif (2 === $size) { //There is a first and a last
+                } elseif (2 === $size) { // There is a first and a last
                     $first = $tmparray[0];
                     $last = $tmparray[1];
                 } else {
@@ -89,8 +89,8 @@ class NamesProcessor
                             try {
                                 $case = $this->determineCase($tmparray[$j]);
 
-                                if ((0 === $case) || (-1 === $case)) { //Change from von to last
-                                    //You only change when there is no more lower case there
+                                if ((0 === $case) || (-1 === $case)) { // Change from von to last
+                                    // You only change when there is no more lower case there
                                     $islast = true;
                                     for ($k = ($j + 1); $k < ($size - 1); ++$k) {
                                         try {
@@ -104,7 +104,7 @@ class NamesProcessor
                                     }
                                     if ($islast) {
                                         $inlast = true;
-                                        if (-1 === $case) { //Caseless belongs to the last
+                                        if (-1 === $case) { // Caseless belongs to the last
                                             $last .= ' '.$tmparray[$j];
                                         } else {
                                             $von .= ' '.$tmparray[$j];
@@ -121,7 +121,7 @@ class NamesProcessor
                         } else {
                             try {
                                 $case = $this->determineCase($tmparray[$j]);
-                                if (0 === $case) { //Change from first to von
+                                if (0 === $case) { // Change from first to von
                                     $invon = true;
                                     $von .= ' '.$tmparray[$j];
                                 } else {
@@ -132,17 +132,17 @@ class NamesProcessor
                             }
                         }
                     }
-                    //The last entry is always the last!
+                    // The last entry is always the last!
                     $last .= ' '.$tmparray[$size - 1];
                 }
-            } else { //Version 2 and 3
+            } else { // Version 2 and 3
                 $tmparray = [];
                 $tmparray = explode(',', $author);
-                //The first entry must contain von and last
+                // The first entry must contain von and last
                 $vonlastarray = [];
                 $vonlastarray = explode(' ', $tmparray[0]);
                 $size = \count($vonlastarray);
-                if (1 === $size) { //Only one entry->got to be the last
+                if (1 === $size) { // Only one entry->got to be the last
                     $last = $vonlastarray[0];
                 } else {
                     $inlast = false;
@@ -150,7 +150,7 @@ class NamesProcessor
                         if ($inlast) {
                             $last .= ' '.$vonlastarray[$j];
                         } else {
-                            if (0 !== ($this->determineCase($vonlastarray[$j]))) { //Change from von to last
+                            if (0 !== $this->determineCase($vonlastarray[$j])) { // Change from von to last
                                 $islast = true;
                                 for ($k = ($j + 1); $k < ($size - 1); ++$k) {
                                     try {
@@ -175,11 +175,11 @@ class NamesProcessor
                     }
                     $last .= ' '.$vonlastarray[$size - 1];
                 }
-                //Now we check if it is version three (three entries in the array (two commas)
+                // Now we check if it is version three (three entries in the array (two commas)
                 if (3 === \count($tmparray)) {
                     $jr = $tmparray[1];
                 }
-                //Everything in the last entry is first
+                // Everything in the last entry is first
                 $first = $tmparray[\count($tmparray) - 1];
             }
             $authorarray[$i] = ['first' => trim($first), 'von' => trim($von), 'last' => trim($last), 'jr' => trim($jr)];
@@ -199,9 +199,9 @@ class NamesProcessor
      *
      * @param string $word
      *
-     * @throws ProcessorException
-     *
      * @return int The Case
+     *
+     * @throws ProcessorException
      *
      * @author Elmar Pitschke <elmar.pitschke@gmx.de>
      */
@@ -218,19 +218,19 @@ class NamesProcessor
             while (!$found && ($i <= mb_strlen($word))) {
                 $letter = mb_substr($trimmedword, $i, 1);
                 $ord = \ord($letter);
-                if (123 === $ord) { //Open brace
+                if (123 === $ord) { // Open brace
                     ++$openbrace;
                 }
-                if (125 === $ord) { //Closing brace
+                if (125 === $ord) { // Closing brace
                     --$openbrace;
                 }
-                if (($ord >= 65) && ($ord <= 90) && (0 === $openbrace)) { //The first character is uppercase
+                if (($ord >= 65) && ($ord <= 90) && (0 === $openbrace)) { // The first character is uppercase
                     $ret = 1;
                     $found = true;
-                } elseif (($ord >= 97) && ($ord <= 122) && (0 === $openbrace)) { //The first character is lowercase
+                } elseif (($ord >= 97) && ($ord <= 122) && (0 === $openbrace)) { // The first character is lowercase
                     $ret = 0;
                     $found = true;
-                } else { //Not yet found
+                } else { // Not yet found
                     ++$i;
                 }
             }

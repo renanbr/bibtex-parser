@@ -1,4 +1,4 @@
-/.php_cs
+/.php-cs-fixer.php
 /composer.lock
 /phpstan.neon
 /phpunit.xml
