@@ -18,7 +18,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\DateProcessor;
 
-#[CoversClass(DateProcessor::class)]
 class DateProcessorTest extends TestCase
 {
     public function testDateYearAndMonth(): void

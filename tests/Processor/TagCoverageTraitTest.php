@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\CoversNamespace;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\TagCoverageTrait;
 
-#[CoversNamespace('RenanBr\\BibTexParser\\Processor')]
 class TagCoverageTraitTest extends TestCase
 {
     public function testZeroConfigurationMustCoverAllTags(): void

@@ -19,7 +19,6 @@ use RenanBr\BibTexParser\Processor\TrimProcessor;
 /**
  * @author Florent DESPIERRES <florent@despierres.pro>
  */
-#[CoversClass(TrimProcessor::class)]
 class TrimProcessorTest extends TestCase
 {
     /**

@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\UrlFromDoiProcessor;
 
-#[CoversNothing]
 class UrlFromDoiProcessorTest extends TestCase
 {
     public function testDoi(): void

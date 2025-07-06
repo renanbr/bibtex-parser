@@ -13,12 +13,12 @@ namespace RenanBr\BibTexParser\Test\Processor;
 
 use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor\LatexToUnicodeProcessor;
 
-#[CoversClass(LatexToUnicodeProcessor::class)]
 class LatexToUnicodeProcessorTest extends TestCase
 {
     #[Before]

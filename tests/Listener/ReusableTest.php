@@ -17,8 +17,6 @@ use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
-#[CoversClass(Listener::class)]
-#[UsesClass(Parser::class)]
 class ReusableTest extends TestCase
 {
     public function testListenerKeepWorkAmongParseCalls(): void

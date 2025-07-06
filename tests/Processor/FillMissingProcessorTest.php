@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\FillMissingProcessor;
 
-#[CoversClass(FillMissingProcessor::class)]
 class FillMissingProcessorTest extends TestCase
 {
     public function testWithMissingFields(): void

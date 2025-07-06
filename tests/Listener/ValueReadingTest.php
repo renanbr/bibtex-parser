@@ -18,8 +18,6 @@ use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
-#[CoversClass(Listener::class)]
-#[UsesClass(Parser::class)]
 class ValueReadingTest extends TestCase
 {
     public function testMultipleNature(): void

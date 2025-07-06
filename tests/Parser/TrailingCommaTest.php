@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Test\DummyListener;
 
-#[CoversClass(Parser::class)]
 class TrailingCommaTest extends TestCase
 {
     public function testTrailingComma()

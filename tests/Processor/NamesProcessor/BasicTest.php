@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\NamesProcessor;
 
-#[CoversClass(NamesProcessor::class)]
 class BasicTest extends TestCase
 {
     public function testSimple(): void

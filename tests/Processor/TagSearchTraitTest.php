@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\CoversNamespace;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\TagSearchTrait;
 
-#[CoversNamespace('RenanBr\\BibTexParser\\Processor')]
 class TagSearchTraitTest extends TestCase
 {
     public function testFound(): void
