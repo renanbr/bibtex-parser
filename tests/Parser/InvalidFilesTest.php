@@ -15,11 +15,13 @@ use ErrorException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Exception\ParserException;
 use RenanBr\BibTexParser\Parser;
 
 #[CoversClass(Parser::class)]
+#[UsesClass(ParserException::class)]
 class InvalidFilesTest extends TestCase
 {
     public function testInexistentFileMustTriggerWarning(): void

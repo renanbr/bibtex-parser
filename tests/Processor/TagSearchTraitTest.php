@@ -11,14 +11,11 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
-use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversNamespace;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\TagSearchTrait;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\TagSearchTrait
- */
-#[CoversClass(TagSearchTrait::class)]
+#[CoversNamespace('RenanBr\\BibTexParser\\Processor')]
 class TagSearchTraitTest extends TestCase
 {
     public function testFound(): void

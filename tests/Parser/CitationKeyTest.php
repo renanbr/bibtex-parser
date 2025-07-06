@@ -21,7 +21,6 @@ use RenanBr\BibTexParser\Test\DummyListener;
 class CitationKeyTest extends TestCase
 {
     /**
-     *
      * @see https://github.com/renanbr/bibtex-parser/issues/44
      */
     #[Group('regression')]

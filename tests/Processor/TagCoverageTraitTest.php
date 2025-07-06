@@ -11,11 +11,11 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
-use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversNamespace;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\TagCoverageTrait;
 
-#[CoversClass(TagCoverageTrait::class)]
+#[CoversNamespace('RenanBr\\BibTexParser\\Processor')]
 class TagCoverageTraitTest extends TestCase
 {
     public function testZeroConfigurationMustCoverAllTags(): void

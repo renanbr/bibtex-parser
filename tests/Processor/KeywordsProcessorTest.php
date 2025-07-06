@@ -12,12 +12,15 @@
 namespace RenanBr\BibTexParser\Test\Processor;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor\KeywordsProcessor;
 
 #[CoversClass(KeywordsProcessor::class)]
+#[UsesClass(Listener::class)]
+#[UsesClass(Parser::class)]
 class KeywordsProcessorTest extends TestCase
 {
     public function testCommaAsSeparator(): void

@@ -13,11 +13,13 @@ namespace RenanBr\BibTexParser\Test\Listener;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
 #[CoversClass(Listener::class)]
+#[UsesClass(Parser::class)]
 class BasicTest extends TestCase
 {
     public function testBasicReading(): void

@@ -12,11 +12,13 @@
 namespace RenanBr\BibTexParser\Test\Listener;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
 #[CoversClass(Listener::class)]
+#[UsesClass(Parser::class)]
 class ProcessorTest extends TestCase
 {
     public function testProcessorIsCalled(): void
