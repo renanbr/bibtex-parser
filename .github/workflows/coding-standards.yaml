@@ -27,6 +27,9 @@ jobs:
                   tools: cs2pr
                   coverage: none
 
+            - name: Install Composer dependencies
+              uses: ramsey/composer-install@v3
+
             - run: mkdir var
 
             - name: Cache PHP Coding Standards
