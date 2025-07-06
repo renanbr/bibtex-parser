@@ -11,16 +11,15 @@
 
 namespace RenanBr\BibTexParser\Test\Listener;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
-/**
- * @covers \RenanBr\BibTexParser\Listener
- */
+#[CoversClass(Listener::class)]
 class ReusableTest extends TestCase
 {
-    public function testListenerKeepWorkAmongParseCalls()
+    public function testListenerKeepWorkAmongParseCalls(): void
     {
         $parser = new Parser();
         $listener = new Listener();

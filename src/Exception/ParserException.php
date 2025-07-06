@@ -15,12 +15,7 @@ use Exception;
 
 class ParserException extends Exception implements ExceptionInterface
 {
-    /**
-     * @param string $character
-     * @param int    $line
-     * @param int    $column
-     */
-    public static function unexpectedCharacter($character, $line, $column)
+    public static function unexpectedCharacter(string $character, int $line, int $column): self
     {
         // Avoid var_export() weird treatment for \0
         $character = "\0" === $character ? "'\\0'" : var_export($character, true);
@@ -29,7 +24,7 @@ class ParserException extends Exception implements ExceptionInterface
             'Unexpected character %s at line %d column %d',
             $character,
             $line,
-            $column
+            $column,
         ));
     }
 }

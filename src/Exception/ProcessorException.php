@@ -13,6 +13,4 @@ namespace RenanBr\BibTexParser\Exception;
 
 use Exception;
 
-class ProcessorException extends Exception implements ExceptionInterface
-{
-}
+class ProcessorException extends Exception implements ExceptionInterface {}

@@ -15,25 +15,13 @@ class UrlFromDoiProcessor
 {
     use TagSearchTrait;
 
-    const FORMAT = 'https://doi.org/%s';
+    public const FORMAT = 'https://doi.org/%s';
 
-    /**
-     * @var string
-     */
-    private $urlFormat;
+    public function __construct(
+        private readonly string $urlFormat = self::FORMAT,
+    ) {}
 
-    /**
-     * @param string $urlFormat
-     */
-    public function __construct($urlFormat = null)
-    {
-        $this->urlFormat = $urlFormat ?: self::FORMAT;
-    }
-
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         $doiTag = $this->tagSearch('doi', array_keys($entry));
         $urlTag = $this->tagSearch('url', array_keys($entry));

@@ -17,33 +17,22 @@ use DateTimeZone;
 class DateProcessor
 {
     use TagSearchTrait;
-    const TAG_NAME = '_date';
 
-    /**
-     * @var string
-     */
-    private $tagName;
+    public const TAG_NAME = '_date';
 
-    /**
-     * @param string $tagName
-     */
-    public function __construct($tagName = null)
-    {
-        $this->tagName = $tagName ?: self::TAG_NAME;
-    }
+    public function __construct(
+        private readonly string $tagName = self::TAG_NAME,
+    ) {}
 
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         $yearTag = $this->tagSearch('year', array_keys($entry));
         $monthTag = $this->tagSearch('month', array_keys($entry));
         if (null !== $yearTag && null !== $monthTag) {
             $year = (int) $entry[$yearTag];
-            $monthArray = explode('~', $entry[$monthTag]);
+            $monthArray = explode('~', (string) $entry[$monthTag]);
             if (2 === \count($monthArray)) {
-                list($day, $month) = $monthArray;
+                [$day, $month] = $monthArray;
                 $day = (int) $day;
                 $dateMonthNumber = date_parse($month);
                 $month = $dateMonthNumber['month'] ?: 0;

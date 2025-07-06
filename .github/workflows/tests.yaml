@@ -17,12 +17,10 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php-version: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+                php-version: ['8.1', '8.2', '8.3', '8.4']
                 include:
                     - php-version: 8.3
                       coverage: true
-                    - php-version: 8.3
-                      with-ueberdosis-pandoc: true
 
         steps:
 
@@ -40,12 +38,6 @@ jobs:
 
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v3
-
-            - name: Install Pandoc wrapper
-              if: ${{ matrix.with-ueberdosis-pandoc }}
-              run: |
-                composer remove --dev ryakad/pandoc-php
-                composer require --dev ueberdosis/pandoc
 
             - name: Run PHPUnit
               run: vendor/bin/phpunit --testdox ${{ matrix.coverage && '--coverage-clover ./coverage.xml' || '--no-coverage' }}

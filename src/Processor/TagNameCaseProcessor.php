@@ -16,21 +16,11 @@ namespace RenanBr\BibTexParser\Processor;
  */
 class TagNameCaseProcessor
 {
-    /** @var int */
-    private $case;
+    public function __construct(
+        private readonly int $case,
+    ) {}
 
-    /**
-     * @param int $case
-     */
-    public function __construct($case)
-    {
-        $this->case = $case;
-    }
-
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         return array_change_key_case($entry, $this->case);
     }

@@ -14,6 +14,4 @@ namespace RenanBr\BibTexParser\Exception;
 /**
  * Interface for package exceptions.
  */
-interface ExceptionInterface
-{
-}
+interface ExceptionInterface {}

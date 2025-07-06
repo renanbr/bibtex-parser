@@ -11,44 +11,43 @@
 
 namespace RenanBr\BibTexParser\Test\Parser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Test\DummyListener;
 
-/**
- * @covers \RenanBr\BibTexParser\Parser
- */
+#[CoversClass(Parser::class)]
 class CommentTest extends TestCase
 {
-    public function testCommentOnly()
+    public function testCommentOnly(): void
     {
         $listener = new DummyListener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/comment-only.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/comment-only.bib');
 
         $this->assertCount(0, $listener->calls);
     }
 
-    public function testCommenEntryMustBeIgnored()
+    public function testCommenEntryMustBeIgnored(): void
     {
         $listener = new DummyListener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/comment-entry.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/comment-entry.bib');
 
         $this->assertCount(0, $listener->calls);
     }
 
-    public function testCommenEntryJabRefStyleMustBeIgnored()
+    public function testCommenEntryJabRefStyleMustBeIgnored(): void
     {
         $listener = new DummyListener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/comment-jabref.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/comment-jabref.bib');
 
         $this->assertCount(0, $listener->calls);
     }

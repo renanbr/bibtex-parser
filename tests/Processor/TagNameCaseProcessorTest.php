@@ -11,24 +11,23 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor\TagNameCaseProcessor;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\TagNameCaseProcessor
- */
+#[CoversClass(TagNameCaseProcessor::class)]
 class TagNameCaseProcessorTest extends TestCase
 {
-    public function testLower()
+    public function testLower(): void
     {
         $listener = new Listener();
         $listener->addProcessor(new TagNameCaseProcessor(\CASE_LOWER));
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/tag-name-uppercased.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/tag-name-uppercased.bib');
 
         $entries = $listener->export();
 
@@ -37,14 +36,14 @@ class TagNameCaseProcessorTest extends TestCase
         $this->assertSame('bAr', $entries[0]['foo']);
     }
 
-    public function testUpper()
+    public function testUpper(): void
     {
         $listener = new Listener();
         $listener->addProcessor(new TagNameCaseProcessor(\CASE_UPPER));
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/tag-name-uppercased.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/tag-name-uppercased.bib');
 
         $entries = $listener->export();
 

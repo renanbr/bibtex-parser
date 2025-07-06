@@ -1,6 +1,7 @@
+/.php-cs-fixer.cache
 /.php-cs-fixer.php
+/.phpunit.cache
 /composer.lock
 /phpstan.neon
 /phpunit.xml
-/var/
 /vendor/

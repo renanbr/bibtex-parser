@@ -14,15 +14,14 @@ namespace RenanBr\BibTexParser\Test\Processor;
 use DateTime;
 use DateTimeImmutable;
 use Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\DateProcessor;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\DateProcessor
- */
+#[CoversClass(DateProcessor::class)]
 class DateProcessorTest extends TestCase
 {
-    public function testDateYearAndMonth()
+    public function testDateYearAndMonth(): void
     {
         $processor = new DateProcessor();
         $entry = $processor([
@@ -37,7 +36,7 @@ class DateProcessorTest extends TestCase
         $this->assertSame('UTC', $dateTime->getTimezone()->getName());
     }
 
-    public function testMissingDayInMonthShouldNotCreateDateTag()
+    public function testMissingDayInMonthShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['month' => 'Jul', 'year' => '2000']);
@@ -49,7 +48,7 @@ class DateProcessorTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testMissingMonthInMonthShouldNotCreateDateTag()
+    public function testMissingMonthInMonthShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['month' => '05', 'year' => '2000']);
@@ -58,7 +57,7 @@ class DateProcessorTest extends TestCase
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testDateSemiYear()
+    public function testDateSemiYear(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['month' => '1~jan', 'year' => '98']);
@@ -70,7 +69,7 @@ class DateProcessorTest extends TestCase
         $this->assertSame('UTC', $dateTime->getTimezone()->getName());
     }
 
-    public function testDateInvalidShouldNotCreateDateTag()
+    public function testDateInvalidShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['month' => 'foo', 'year' => 'bar']);
@@ -79,7 +78,7 @@ class DateProcessorTest extends TestCase
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testDateMissingYearShouldNotCreateDateTag()
+    public function testDateMissingYearShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['month' => '1~jan']);
@@ -87,7 +86,7 @@ class DateProcessorTest extends TestCase
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testDateMissingMonthShouldNotCreateDateTag()
+    public function testDateMissingMonthShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['year' => '2000']);
@@ -95,21 +94,21 @@ class DateProcessorTest extends TestCase
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testDateMissingAllShouldNotCreateDateTag()
+    public function testDateMissingAllShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor([]);
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testDateAlreadyExist()
+    public function testDateAlreadyExist(): void
     {
         $processor = new DateProcessor();
         $entry = $processor(['_date' => 'I do exist']);
         $this->assertSame('I do exist', $entry['_date']);
     }
 
-    public function testInvalidMonthNameShouldNotCreateDateTag()
+    public function testInvalidMonthNameShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor([
@@ -119,7 +118,7 @@ class DateProcessorTest extends TestCase
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testInvalidDayShouldNotCreateDateTag()
+    public function testInvalidDayShouldNotCreateDateTag(): void
     {
         $processor = new DateProcessor();
         $entry = $processor([
@@ -129,7 +128,7 @@ class DateProcessorTest extends TestCase
         $this->assertArrayNotHasKey('_date', $entry);
     }
 
-    public function testDateIsImmutable()
+    public function testDateIsImmutable(): void
     {
         $processor = new DateProcessor();
         $entry = $processor([
@@ -139,7 +138,7 @@ class DateProcessorTest extends TestCase
         $this->assertInstanceOf(DateTimeImmutable::class, $entry['_date']);
     }
 
-    public function testCustomTagName()
+    public function testCustomTagName(): void
     {
         $processor = new DateProcessor('my_tag_name');
         $entry = $processor([

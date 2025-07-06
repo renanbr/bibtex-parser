@@ -11,22 +11,22 @@
 
 namespace RenanBr\BibTexParser\Test\Listener;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
-/**
- * @covers \RenanBr\BibTexParser\Listener
- */
+#[CoversClass(Listener::class)]
 class ValueReadingTest extends TestCase
 {
-    public function testMultipleNature()
+    public function testMultipleNature(): void
     {
         $listener = new Listener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/tag-contents-basic.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/tag-contents-basic.bib');
 
         $entries = $listener->export();
         $this->assertCount(1, $entries);
@@ -42,13 +42,13 @@ class ValueReadingTest extends TestCase
         $this->assertSame('', $entry['kQuotedEmpty']);
     }
 
-    public function testValueConcatenation()
+    public function testValueConcatenation(): void
     {
         $listener = new Listener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/tag-contents-multiple.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/tag-contents-multiple.bib');
 
         $entries = $listener->export();
         $this->assertCount(1, $entries);
@@ -62,13 +62,13 @@ class ValueReadingTest extends TestCase
         $this->assertSame('rawquotedbraced', $entry['noSpace']);
     }
 
-    public function testAbbreviation()
+    public function testAbbreviation(): void
     {
         $listener = new Listener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/abbreviation.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/abbreviation.bib');
 
         $entries = $listener->export();
         $this->assertCount(3, $entries);
@@ -93,18 +93,17 @@ class ValueReadingTest extends TestCase
     }
 
     /**
-     * @group regression
-     * @group bug62
-     *
      * @see https://github.com/renanbr/bibtex-parser/issues/62
      */
-    public function testStringVariableWithSpecialCharacterMustBeAccepted()
+    #[Group('regression')]
+    #[Group('bug62')]
+    public function testStringVariableWithSpecialCharacterMustBeAccepted(): void
     {
         $listener = new Listener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/string-var-with-special-char.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/string-var-with-special-char.bib');
 
         $entries = $listener->export();
 

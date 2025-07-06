@@ -11,65 +11,64 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 use RenanBr\BibTexParser\Processor\TagCoverageTrait;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\TagCoverageTrait
- */
+#[CoversClass(TagCoverageTrait::class)]
 class TagCoverageTraitTest extends TestCase
 {
-    public function testZeroConfigurationMustCoverAllTags()
+    public function testZeroConfigurationMustCoverAllTags(): void
     {
-        $trait = $this->getMockForTrait(TagCoverageTrait::class);
-        $coverage = $this->invokeGetCoveredTags($trait, ['bbb', 'ccc']);
+        $tagCoverage = new class {
+            use TagCoverageTrait { getCoveredTags as public; }
+        };
+        $coverage = $tagCoverage->getCoveredTags(['bbb', 'ccc']);
 
         $this->assertSame(['bbb', 'ccc'], $coverage);
     }
 
-    public function testWhitelistStrategy()
+    public function testWhitelistStrategy(): void
     {
-        $trait = $this->getMockForTrait(TagCoverageTrait::class);
-        $trait->setTagCoverage(['aaa', 'bbb'], 'whitelist');
-        $coverage = $this->invokeGetCoveredTags($trait, ['bbb', 'ccc']);
+        $tagCoverage = new class {
+            use TagCoverageTrait { getCoveredTags as public; }
+        };
+        $tagCoverage->setTagCoverage(['aaa', 'bbb'], 'whitelist');
+        $coverage = $tagCoverage->getCoveredTags(['bbb', 'ccc']);
 
         $this->assertSame(['bbb'], $coverage);
     }
 
-    public function testDefaultStrategyMustActAsWhitelist()
+    public function testDefaultStrategyMustActAsWhitelist(): void
     {
-        $trait = $this->getMockForTrait(TagCoverageTrait::class);
-        $trait->setTagCoverage(['aaa', 'bbb']);
-        $coverage = $this->invokeGetCoveredTags($trait, ['bbb', 'ccc']);
+        $tagCoverage = new class {
+            use TagCoverageTrait { getCoveredTags as public; }
+        };
+        $tagCoverage->setTagCoverage(['aaa', 'bbb']);
+        $coverage = $tagCoverage->getCoveredTags(['bbb', 'ccc']);
 
         $this->assertSame(['bbb'], $coverage);
     }
 
-    public function testBlacklist()
+    public function testBlacklist(): void
     {
-        $trait = $this->getMockForTrait(TagCoverageTrait::class);
-        $trait->setTagCoverage(['aaa', 'bbb'], 'blacklist');
-        $coverage = $this->invokeGetCoveredTags($trait, ['bbb', 'ccc']);
+        $tagCoverage = new class {
+            use TagCoverageTrait { getCoveredTags as public; }
+        };
+        $tagCoverage->setTagCoverage(['aaa', 'bbb'], 'blacklist');
+        $coverage = $tagCoverage->getCoveredTags(['bbb', 'ccc']);
 
         $this->assertSame(['ccc'], $coverage);
     }
 
-    public function testCaseInsensitiveMatch()
+    public function testCaseInsensitiveMatch(): void
     {
-        $trait = $this->getMockForTrait(TagCoverageTrait::class);
-        $trait->setTagCoverage(['aaa', 'bbb']);
-        $coverage = $this->invokeGetCoveredTags($trait, ['BBB', 'ccc']);
+        $tagCoverage = new class {
+            use TagCoverageTrait { getCoveredTags as public; }
+        };
+        $tagCoverage->setTagCoverage(['aaa', 'bbb']);
+        $coverage = $tagCoverage->getCoveredTags(['BBB', 'ccc']);
 
         $this->assertSame(['BBB'], $coverage);
-    }
-
-    private function invokeGetCoveredTags($trait, $tags)
-    {
-        $reflection = new ReflectionClass($trait);
-        $getCoveredTags = $reflection->getMethod('getCoveredTags');
-        $getCoveredTags->setAccessible(true);
-
-        return $getCoveredTags->invoke($trait, $tags);
     }
 }

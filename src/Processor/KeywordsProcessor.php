@@ -23,14 +23,11 @@ class KeywordsProcessor
         $this->setTagCoverage(['keywords']);
     }
 
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         $covered = $this->getCoveredTags(array_keys($entry));
         foreach ($covered as $tag) {
-            $entry[$tag] = preg_split('/, |; /', $entry[$tag]);
+            $entry[$tag] = preg_split('/, |; /', (string) $entry[$tag]);
         }
 
         return $entry;

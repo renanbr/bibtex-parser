@@ -12,17 +12,8 @@ EOF;
 return (new PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
-        '@Symfony' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'global_namespace_import' => true,
-        'header_comment' => ['header' => $header],
-        'mb_str_functions' => true,
-        'ordered_imports' => true,
-        'php_unit_strict' => true,
-        'php_unit_test_class_requires_covers' => true,
-        'strict_comparison' => true,
-        'strict_param' => true,
-        'visibility_required' => false,
+        '@PER-CS' => true,
+        '@PER-CS:risky' => true,
     ])
     ->setFinder(
         (new PhpCsFixer\Finder())

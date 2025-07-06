@@ -17,15 +17,11 @@ trait TagSearchTrait
      * Searches for the actual name of a tag.
      *
      * The search performed is case-insensitive.
-     *
-     * @param string $needle
-     *
-     * @return string|null
      */
-    protected function tagSearch($needle, array $haystack)
+    protected function tagSearch(string $needle, array $haystack): string|null
     {
         foreach ($haystack as $actual) {
-            if (0 === strcasecmp($needle, $actual)) {
+            if (0 === strcasecmp($needle, (string) $actual)) {
                 return $actual;
             }
         }

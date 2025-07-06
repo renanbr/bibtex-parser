@@ -11,58 +11,57 @@
 
 namespace RenanBr\BibTexParser\Test\Parser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Test\DummyListener;
 
-/**
- * @covers \RenanBr\BibTexParser\Parser
- */
+#[CoversClass(Parser::class)]
 class BasicTest extends TestCase
 {
-    public function testBasic()
+    public function testBasic(): void
     {
         $listener = new DummyListener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/basic.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/basic.bib');
 
         $this->assertCount(4, $listener->calls);
 
-        list($text, $type, $context) = $listener->calls[0];
+        [$text, $type, $context] = $listener->calls[0];
         $this->assertSame(Parser::TYPE, $type);
         $this->assertSame('basic', $text);
         $this->assertSame(1, $context['offset']);
         $this->assertSame(5, $context['length']);
 
-        list($text, $type, $context) = $listener->calls[1];
+        [$text, $type, $context] = $listener->calls[1];
         $this->assertSame(Parser::TAG_NAME, $type);
         $this->assertSame('foo', $text);
         $this->assertSame(13, $context['offset']);
         $this->assertSame(3, $context['length']);
 
-        list($text, $type, $context) = $listener->calls[2];
+        [$text, $type, $context] = $listener->calls[2];
         $this->assertSame(Parser::RAW_TAG_CONTENT, $type);
         $this->assertSame('bar', $text);
         $this->assertSame(19, $context['offset']);
         $this->assertSame(3, $context['length']);
 
-        list($text, $type, $context) = $listener->calls[3];
+        [$text, $type, $context] = $listener->calls[3];
         $this->assertSame(Parser::ENTRY, $type);
-        $original = trim(file_get_contents(__DIR__.'/../resources/valid/basic.bib'));
+        $original = trim(file_get_contents(__DIR__ . '/../resources/valid/basic.bib'));
         $this->assertSame($original, $text);
         $this->assertSame(0, $context['offset']);
         $this->assertSame(24, $context['length']);
     }
 
     /**
-     * @group regression
-     * @group bug39
-     *
      * @see https://github.com/renanbr/bibtex-parser/issues/39
      */
-    public function testOriginalEntryTriggeringWhenLastCharClosesAnEntry()
+    #[Group('regression')]
+    #[Group('bug39')]
+    public function testOriginalEntryTriggeringWhenLastCharClosesAnEntry(): void
     {
         $listener = new DummyListener();
 
@@ -72,7 +71,7 @@ class BasicTest extends TestCase
 
         $this->assertCount(4, $listener->calls);
 
-        list($text, $type) = $listener->calls[3];
+        [$text, $type] = $listener->calls[3];
         $this->assertSame('@misc{title="findme"}', $text);
         $this->assertSame(Parser::ENTRY, $type);
     }

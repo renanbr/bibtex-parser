@@ -11,30 +11,28 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
+use PHPUnit\Framework\Attributes\Before;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor\LatexToUnicodeProcessor;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\LatexToUnicodeProcessor
- */
+#[CoversClass(LatexToUnicodeProcessor::class)]
 class LatexToUnicodeProcessorTest extends TestCase
 {
-    /**
-     * @before
-     */
-    protected function checkPandoc()
+    #[Before]
+    protected function checkPandoc(): void
     {
         exec('which pandoc', $output, $retVal);
         if (0 !== $retVal) {
             $this->markTestSkipped(
-                'Pandoc is not installed, skiping this test'
+                'Pandoc is not installed, skipping this test',
             );
         }
     }
 
-    public function testTextAsInput()
+    public function testTextAsInput(): void
     {
         $processor = new LatexToUnicodeProcessor();
         $entry = $processor([
@@ -44,7 +42,7 @@ class LatexToUnicodeProcessorTest extends TestCase
         $this->assertSame('très bien', $entry['text']);
     }
 
-    public function testArrayAsInput()
+    public function testArrayAsInput(): void
     {
         $processor = new LatexToUnicodeProcessor();
         $entry = $processor([
@@ -60,14 +58,14 @@ class LatexToUnicodeProcessorTest extends TestCase
         ], $entry['text']);
     }
 
-    public function testThroughListener()
+    public function testThroughListener(): void
     {
         $listener = new Listener();
         $listener->addProcessor(new LatexToUnicodeProcessor());
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/tag-contents-latex.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/tag-contents-latex.bib');
 
         $entries = $listener->export();
 
@@ -77,14 +75,15 @@ class LatexToUnicodeProcessorTest extends TestCase
         $this->assertSame('tagContentLatex', $entries[0]['_type']);
 
         $this->assertSame(
-            trim(file_get_contents(__DIR__.'/../resources/valid/tag-contents-latex.bib')),
-            $entries[0]['_original'])
+            trim(file_get_contents(__DIR__ . '/../resources/valid/tag-contents-latex.bib')),
+            $entries[0]['_original'],
+        )
         ;
 
         $this->assertSame('cafés', $entries[0]['consensus']);
     }
 
-    public function testDoNotWrapLongText()
+    public function testDoNotWrapLongText(): void
     {
         $longText = '0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789 0123456789';
         $processor = new LatexToUnicodeProcessor();

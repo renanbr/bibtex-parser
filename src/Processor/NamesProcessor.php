@@ -33,10 +33,7 @@ class NamesProcessor
         $this->setTagCoverage(['author', 'editor']);
     }
 
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         $covered = $this->getCoveredTags(array_keys($entry));
         foreach ($covered as $tag) {
@@ -49,18 +46,13 @@ class NamesProcessor
     /**
      * Extracting the authors.
      *
-     * @param string $entry The entry with the authors
-     *
-     * @return array the extracted authors
-     *
      * @author Elmar Pitschke <elmar.pitschke@gmx.de>
      */
-    private function extractAuthors($entry)
+    private function extractAuthors(string $entry): array
     {
         // Sanitizes the entry to remove unwanted whitespace
-        $entry = trim(preg_replace('/\s+/', ' ', $entry));
+        $entry = trim((string) preg_replace('/\s+/', ' ', $entry));
 
-        $authorarray = [];
         $authorarray = explode(' and ', $entry);
         for ($i = 0; $i < \count($authorarray); ++$i) {
             $author = trim($authorarray[$i]);
@@ -84,7 +76,7 @@ class NamesProcessor
                     $inlast = false;
                     for ($j = 0; $j < ($size - 1); ++$j) {
                         if ($inlast) {
-                            $last .= ' '.$tmparray[$j];
+                            $last .= ' ' . $tmparray[$j];
                         } elseif ($invon) {
                             try {
                                 $case = $this->determineCase($tmparray[$j]);
@@ -98,24 +90,24 @@ class NamesProcessor
                                             if (0 === $futurecase) {
                                                 $islast = false;
                                             }
-                                        } catch (ProcessorException $sbe) {
+                                        } catch (ProcessorException) {
                                             // Ignore
                                         }
                                     }
                                     if ($islast) {
                                         $inlast = true;
                                         if (-1 === $case) { // Caseless belongs to the last
-                                            $last .= ' '.$tmparray[$j];
+                                            $last .= ' ' . $tmparray[$j];
                                         } else {
-                                            $von .= ' '.$tmparray[$j];
+                                            $von .= ' ' . $tmparray[$j];
                                         }
                                     } else {
-                                        $von .= ' '.$tmparray[$j];
+                                        $von .= ' ' . $tmparray[$j];
                                     }
                                 } else {
-                                    $von .= ' '.$tmparray[$j];
+                                    $von .= ' ' . $tmparray[$j];
                                 }
-                            } catch (ProcessorException $sbe) {
+                            } catch (ProcessorException) {
                                 // Ignore
                             }
                         } else {
@@ -123,17 +115,17 @@ class NamesProcessor
                                 $case = $this->determineCase($tmparray[$j]);
                                 if (0 === $case) { // Change from first to von
                                     $invon = true;
-                                    $von .= ' '.$tmparray[$j];
+                                    $von .= ' ' . $tmparray[$j];
                                 } else {
-                                    $first .= ' '.$tmparray[$j];
+                                    $first .= ' ' . $tmparray[$j];
                                 }
-                            } catch (ProcessorException $sbe) {
+                            } catch (ProcessorException) {
                                 // Ignore
                             }
                         }
                     }
                     // The last entry is always the last!
-                    $last .= ' '.$tmparray[$size - 1];
+                    $last .= ' ' . $tmparray[$size - 1];
                 }
             } else { // Version 2 and 3
                 $tmparray = [];
@@ -148,7 +140,7 @@ class NamesProcessor
                     $inlast = false;
                     for ($j = 0; $j < ($size - 1); ++$j) {
                         if ($inlast) {
-                            $last .= ' '.$vonlastarray[$j];
+                            $last .= ' ' . $vonlastarray[$j];
                         } else {
                             if (0 !== $this->determineCase($vonlastarray[$j])) { // Change from von to last
                                 $islast = true;
@@ -158,22 +150,22 @@ class NamesProcessor
                                         if (0 === $case) {
                                             $islast = false;
                                         }
-                                    } catch (ProcessorException $sbe) {
+                                    } catch (ProcessorException) {
                                         // Ignore
                                     }
                                 }
                                 if ($islast) {
                                     $inlast = true;
-                                    $last .= ' '.$vonlastarray[$j];
+                                    $last .= ' ' . $vonlastarray[$j];
                                 } else {
-                                    $von .= ' '.$vonlastarray[$j];
+                                    $von .= ' ' . $vonlastarray[$j];
                                 }
                             } else {
-                                $von .= ' '.$vonlastarray[$j];
+                                $von .= ' ' . $vonlastarray[$j];
                             }
                         }
                     }
-                    $last .= ' '.$vonlastarray[$size - 1];
+                    $last .= ' ' . $vonlastarray[$size - 1];
                 }
                 // Now we check if it is version three (three entries in the array (two commas)
                 if (3 === \count($tmparray)) {
@@ -197,21 +189,17 @@ class NamesProcessor
      * - Lower Case (return value 0)
      * - Caseless   (return value -1)
      *
-     * @param string $word
-     *
-     * @return int The Case
-     *
      * @throws ProcessorException
      *
      * @author Elmar Pitschke <elmar.pitschke@gmx.de>
      */
-    private function determineCase($word)
+    private function determineCase(string $word): int
     {
         $ret = -1;
         $trimmedword = trim($word);
         /*We need this variable. Without the next of would not work
         (trim changes the variable automatically to a string!)*/
-        if (\is_string($word) && (mb_strlen($trimmedword) > 0)) {
+        if (mb_strlen($trimmedword) > 0) {
             $i = 0;
             $found = false;
             $openbrace = 0;
@@ -235,7 +223,7 @@ class NamesProcessor
                 }
             }
         } else {
-            throw new ProcessorException('Could not determine case on word: '.$word);
+            throw new ProcessorException('Could not determine case on word: ' . $word);
         }
 
         return $ret;

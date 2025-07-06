@@ -11,54 +11,53 @@
 
 namespace RenanBr\BibTexParser\Test\Parser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Test\DummyListener;
 
-/**
- * @covers \RenanBr\BibTexParser\Parser
- */
+#[CoversClass(Parser::class)]
 class MultipleEntriesTest extends TestCase
 {
-    public function testMultipleEntries()
+    public function testMultipleEntries(): void
     {
         $listener = new DummyListener();
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/multiples-entries.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/multiples-entries.bib');
 
         $this->assertCount(8, $listener->calls);
 
-        list($text, $type, $context) = $listener->calls[0];
+        [$text, $type, $context] = $listener->calls[0];
         $this->assertSame(Parser::TYPE, $type);
         $this->assertSame('entryFooWithSpaces', $text);
 
-        list($text, $type, $context) = $listener->calls[1];
+        [$text, $type, $context] = $listener->calls[1];
         $this->assertSame(Parser::TAG_NAME, $type);
         $this->assertSame('foo', $text);
 
-        list($text, $type, $context) = $listener->calls[2];
+        [$text, $type, $context] = $listener->calls[2];
         $this->assertSame(Parser::RAW_TAG_CONTENT, $type);
         $this->assertSame('oof', $text);
 
-        list($text, $type, $context) = $listener->calls[3];
+        [$text, $type, $context] = $listener->calls[3];
         $this->assertSame(Parser::ENTRY, $type);
         $this->assertSame('@entryFooWithSpaces { foo = oof }', $text);
 
-        list($text, $type, $context) = $listener->calls[4];
+        [$text, $type, $context] = $listener->calls[4];
         $this->assertSame(Parser::TYPE, $type);
         $this->assertSame('entryBarWithoutSpaces', $text);
 
-        list($text, $type, $context) = $listener->calls[5];
+        [$text, $type, $context] = $listener->calls[5];
         $this->assertSame(Parser::TAG_NAME, $type);
         $this->assertSame('bar', $text);
 
-        list($text, $type, $context) = $listener->calls[6];
+        [$text, $type, $context] = $listener->calls[6];
         $this->assertSame(Parser::RAW_TAG_CONTENT, $type);
         $this->assertSame('rab', $text);
 
-        list($text, $type, $context) = $listener->calls[7];
+        [$text, $type, $context] = $listener->calls[7];
         $this->assertSame(Parser::ENTRY, $type);
         $this->assertSame('@entryBarWithoutSpaces{bar=rab}', $text);
     }

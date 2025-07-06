@@ -24,7 +24,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: 8.3
-                  tools: php-cs-fixer:3, cs2pr
+                  tools: cs2pr
                   coverage: none
 
             - run: mkdir var
@@ -37,4 +37,4 @@ jobs:
                   restore-keys: php-cs-fixer-
 
             - name: Run PHP Coding Standards
-              run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+              run: vendor/bin/php-cs-fixer check --format=checkstyle | cs2pr
