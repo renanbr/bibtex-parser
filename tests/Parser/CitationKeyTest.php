@@ -11,22 +11,20 @@
 
 namespace RenanBr\BibTexParser\Test\Parser;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Test\DummyListener;
 
-/**
- * @covers \RenanBr\BibTexParser\Parser
- */
 class CitationKeyTest extends TestCase
 {
     /**
-     * @group regression
-     * @group bug44
-     *
      * @see https://github.com/renanbr/bibtex-parser/issues/44
      */
-    public function testDBLPCitationKey()
+    #[Group('regression')]
+    #[Group('bug44')]
+    public function testDBLPCitationKey(): void
     {
         $listener = new DummyListener();
 
@@ -38,19 +36,18 @@ class CitationKeyTest extends TestCase
         // 1 -> citation key
         // 2 -> original entry
         $this->assertCount(3, $listener->calls);
-        list($text, $type) = $listener->calls[1];
+        [$text, $type] = $listener->calls[1];
 
         $this->assertSame('DBLP:journals/npl/CaamanoSBD16', $text);
         $this->assertSame(Parser::CITATION_KEY, $type);
     }
 
     /**
-     * @group regression
-     * @group bug44
-     *
      * @see https://github.com/renanbr/bibtex-parser/issues/44
      */
-    public function testACMCitationKey()
+    #[Group('regression')]
+    #[Group('bug44')]
+    public function testACMCitationKey(): void
     {
         $listener = new DummyListener();
 
@@ -62,19 +59,18 @@ class CitationKeyTest extends TestCase
         // 1 -> citation key
         // 2 -> original entry
         $this->assertCount(3, $listener->calls);
-        list($text, $type) = $listener->calls[1];
+        [$text, $type] = $listener->calls[1];
 
         $this->assertSame('Kyriakakis:2016:EMI:3003733.3003777', $text);
         $this->assertSame(Parser::CITATION_KEY, $type);
     }
 
     /**
-     * @group regression
-     * @group bug94
-     *
      * @see https://github.com/renanbr/bibtex-parser/issues/94
      */
-    public function testSpecialCharactersKey()
+    #[Group('regression')]
+    #[Group('bug94')]
+    public function testSpecialCharactersKey(): void
     {
         $listener = new DummyListener();
 
@@ -86,7 +82,7 @@ class CitationKeyTest extends TestCase
         // 1 -> citation key
         // 2 -> original entry
         $this->assertCount(3, $listener->calls);
-        list($text, $type) = $listener->calls[1];
+        [$text, $type] = $listener->calls[1];
 
         $this->assertSame('schünemann2013evaluation', $text);
         $this->assertSame(Parser::CITATION_KEY, $type);

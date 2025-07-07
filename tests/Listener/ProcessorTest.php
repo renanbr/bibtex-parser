@@ -11,16 +11,15 @@
 
 namespace RenanBr\BibTexParser\Test\Listener;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 
-/**
- * @covers \RenanBr\BibTexParser\Listener
- */
 class ProcessorTest extends TestCase
 {
-    public function testProcessorIsCalled()
+    public function testProcessorIsCalled(): void
     {
         $listener = new Listener();
         $listener->addProcessor(function ($entry) {
@@ -32,7 +31,7 @@ class ProcessorTest extends TestCase
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/basic.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/basic.bib');
 
         $entries = $listener->export();
         $entry = $entries[0];
@@ -40,7 +39,7 @@ class ProcessorTest extends TestCase
         $this->assertSame('bar processed', $entry['foo']);
     }
 
-    public function testProcessorsAreCalledInCorrectOrder()
+    public function testProcessorsAreCalledInCorrectOrder(): void
     {
         $listener = new Listener();
         $listener->addProcessor(function ($entry) {
@@ -58,7 +57,7 @@ class ProcessorTest extends TestCase
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/basic.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/basic.bib');
 
         $entries = $listener->export();
         $entry = $entries[0];
@@ -66,7 +65,7 @@ class ProcessorTest extends TestCase
         $this->assertSame('bar 1 2', $entry['foo']);
     }
 
-    public function testDiscardingEntry()
+    public function testDiscardingEntry(): void
     {
         $listener = new Listener();
         $listener->addProcessor(function ($entry) {

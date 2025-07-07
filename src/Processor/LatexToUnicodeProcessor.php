@@ -27,10 +27,7 @@ class LatexToUnicodeProcessor
     /** @var (callable(string): string)|null */
     private $converter;
 
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         $covered = $this->getCoveredTags(array_keys($entry));
         foreach ($covered as $tag) {
@@ -42,7 +39,7 @@ class LatexToUnicodeProcessor
 
             // Translate array
             if (\is_array($entry[$tag])) {
-                array_walk_recursive($entry[$tag], function (&$text) {
+                array_walk_recursive($entry[$tag], function (&$text): void {
                     if (\is_string($text)) {
                         $text = $this->decode($text);
                     }
@@ -53,10 +50,7 @@ class LatexToUnicodeProcessor
         return $entry;
     }
 
-    /**
-     * @return string
-     */
-    private function decode($text)
+    private function decode($text): string
     {
         try {
             return \call_user_func($this->getConverter(), $text);
@@ -68,33 +62,18 @@ class LatexToUnicodeProcessor
     /**
      * @return (callable(string): string)
      */
-    private function getConverter()
+    private function getConverter(): callable
     {
         if ($this->converter) {
             return $this->converter;
         }
 
         if (InstalledVersions::isInstalled('ueberdosis/pandoc')) {
-            $pandoc = new Pandoc();
-
-            return $this->converter = static function ($text) use ($pandoc) {
-                // @phpstan-ignore-next-line
-                return mb_substr($pandoc->input($text)->execute([
-                    '--from', 'latex',
-                    '--to', 'plain',
-                    '--wrap', 'none',
-                ]), 0, -1);
-            };
-        } elseif (InstalledVersions::isInstalled('ryakad/pandoc-php')) {
-            $pandoc = new Pandoc();
-
-            return $this->converter = static function ($text) use ($pandoc) {
-                return $pandoc->runWith($text, [
-                    'from' => 'latex',
-                    'to' => 'plain',
-                    'wrap' => 'none',
-                ]);
-            };
+            return $this->converter = (static fn($text) => mb_substr((string) (new Pandoc())->input($text)->execute([
+                '--from', 'latex',
+                '--to', 'plain',
+                '--wrap', 'none',
+            ]), 0, -1));
         }
 
         throw new RuntimeException('Pandoc wrapper not installed. Try running "composer require ueberdosis/pandoc"');

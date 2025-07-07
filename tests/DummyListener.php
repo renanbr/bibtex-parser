@@ -15,9 +15,9 @@ use RenanBr\BibTexParser\ListenerInterface;
 
 class DummyListener implements ListenerInterface
 {
-    public $calls = [];
+    public array $calls = [];
 
-    public function bibTexUnitFound($text, $type, array $context)
+    public function bibTexUnitFound($text, $type, array $context): void
     {
         $this->calls[] = [
             $text,

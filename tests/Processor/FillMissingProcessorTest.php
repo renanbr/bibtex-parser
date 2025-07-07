@@ -11,15 +11,13 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Processor\FillMissingProcessor;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\FillMissingProcessor
- */
 class FillMissingProcessorTest extends TestCase
 {
-    public function testWithMissingFields()
+    public function testWithMissingFields(): void
     {
         $processor = new FillMissingProcessor([
             'description' => 'this entry has no description',
@@ -31,11 +29,11 @@ class FillMissingProcessorTest extends TestCase
 
         $this->assertSame(
             'this entry has no description',
-            $entry['description']
+            $entry['description'],
         );
     }
 
-    public function testWithoutMissingFields()
+    public function testWithoutMissingFields(): void
     {
         $processor = new FillMissingProcessor([
             'description' => 'this entry has no description',
@@ -48,7 +46,7 @@ class FillMissingProcessorTest extends TestCase
 
         $this->assertSame(
             'bar',
-            $entry['description']
+            $entry['description'],
         );
     }
 }

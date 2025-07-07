@@ -13,28 +13,23 @@ namespace RenanBr\BibTexParser;
 
 class Listener implements ListenerInterface
 {
-    /** @var array */
-    private $entries = [];
+    private array $entries = [];
 
     /**
      * Current tag name.
      *
      * Indicates where to save contents when triggered by the parser.
-     *
-     * @var string
      */
-    private $currentTagName;
+    private string $currentTagName;
 
-    /** @var array */
-    private $processors = [];
+    private array $processors = [];
 
-    /** @var array */
-    private $processed = [];
+    private array $processed = [];
 
     /**
      * @return array all entries found during parsing process
      */
-    public function export()
+    public function export(): array
     {
         $offset = \count($this->processed);
         $missing = \array_slice($this->entries, $offset);
@@ -47,18 +42,16 @@ class Listener implements ListenerInterface
     }
 
     /**
-     * @param callable $processor Function to be applied to every BibTeX entry.
-     *                            The processor given must return the modified entry.
-     *                            Processors will be applied in the same order in which they were added.
-     *                            The suggested signature is:
-     *                            function (array $entry): array
+     * @param (callable(array): array) $processor Function to be applied to every BibTeX entry.
+     *                                            The processor given must return the modified entry.
+     *                                            Processors will be applied in the same order in which they were added.
      */
-    public function addProcessor(callable $processor)
+    public function addProcessor(callable $processor): void
     {
         $this->processors[] = $processor;
     }
 
-    public function bibTexUnitFound($text, $type, array $context)
+    public function bibTexUnitFound($text, $type, array $context): void
     {
         switch ($type) {
             case Parser::TYPE:

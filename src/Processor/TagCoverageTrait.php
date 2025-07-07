@@ -15,20 +15,18 @@ trait TagCoverageTrait
 {
     use TagSearchTrait;
 
-    /** @var array */
-    private $tagCoverageList = [
+    private array $tagCoverageList = [
         '_original',
         '_type',
     ];
 
-    /** @var string */
-    private $tagCoverageStrategy = 'blacklist';
+    private string $tagCoverageStrategy = 'blacklist';
 
     /**
-     * @param array  $tags     List of tags to be covered
-     * @param string $strategy Can assume "whitelist" (default) or "blacklist"
+     * @param array   $tags     List of tags to be covered
+     * @param ?string $strategy Can assume "whitelist" (default) or "blacklist"
      */
-    public function setTagCoverage($tags, $strategy = null)
+    public function setTagCoverage(array $tags, ?string $strategy = null): void
     {
         $this->tagCoverageList = $tags;
         $this->tagCoverageStrategy = $strategy ?: 'whitelist';
@@ -38,10 +36,8 @@ trait TagCoverageTrait
      * Calculates which tags are covered.
      *
      * The search performed internally is case-insensitive.
-     *
-     * @return array
      */
-    protected function getCoveredTags(array $tags)
+    protected function getCoveredTags(array $tags): array
     {
         // Finds for actual tag names
         $matched = [];

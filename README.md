@@ -27,17 +27,19 @@ You are browsing the documentation of **BibTeX Parser 2.x**, the latest version.
 * [Usage](#usage)
 * [Vocabulary](#vocabulary)
 * [Processors](#processors)
-   * [Tag name case](#tag-name-case)
-   * [Authors and editors](#authors-and-editors)
-   * [Keywords](#keywords)
-   * [Date](#date)
-   * [Fill missing tag](#fill-missing-tag)
-   * [Trim tags](#trim-tags)
-   * [Determine URL from the DOI](#determine-url-from-the-doi)
-   * [LaTeX to unicode](#latex-to-unicode)
-   * [Custom](#custom)
+  * [Tag name case](#tag-name-case)
+  * [Authors and editors](#authors-and-editors)
+  * [Keywords](#keywords)
+  * [Date](#date)
+  * [Fill missing tag](#fill-missing-tag)
+  * [Trim tags](#trim-tags)
+  * [Determine URL from the DOI](#determine-url-from-the-doi)
+  * [LaTeX to unicode](#latex-to-unicode)
+  * [Custom](#custom)
 * [Handling errors](#handling-errors)
 * [Advanced usage](#advanced-usage)
+* [Release Policy](#release-policy)
+  * [Dependencies Compatibility Policy](#dependencies-compatibility-policy)
 
 ## Installing
 
@@ -559,11 +561,24 @@ interface ListenerInterface
 - `length` contains the original `$text`'s length.
   It may differ from [string] length sent to the listener because may there are escaped characters.
 
+## Release Policy
+
+There is a **single** maintained branch per time.
+This branch targets a minor version.
+
+A maintained version reaches its end-of-life when a new minor version is released.
+
+### Dependencies Compatibility Policy
+
+This library is compatible with maintained versions of
+[PHP][php-versions].
+
 [BibTeX]: https://tug.org/bibtex/
 [DOI]: https://www.doi.org/
 [DateTimeImmutable]: https://www.php.net/manual/class.datetimeimmutable.php
 [LaTeX]: https://www.latex-project.org/
 [array]: https://php.net/manual/language.types.array.php
 [callable]: https://php.net/manual/en/language.types.callable.php
+[php-versions]: https://www.php.net/supported-versions.php
 [string]: https://php.net/manual/language.types.string.php
 [trim()]: https://www.php.net/trim

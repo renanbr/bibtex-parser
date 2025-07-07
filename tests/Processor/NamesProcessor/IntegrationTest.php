@@ -11,24 +11,23 @@
 
 namespace RenanBr\BibTexParser\Test\Processor\NamesProcessor;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor\NamesProcessor;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\NamesProcessor
- */
 class IntegrationTest extends TestCase
 {
-    public function testUsage()
+    public function testUsage(): void
     {
         $listener = new Listener();
         $listener->addProcessor(new NamesProcessor());
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../../resources/valid/authors-simple.bib');
+        $parser->parseFile(__DIR__ . '/../../resources/valid/authors-simple.bib');
         $entries = $listener->export();
 
         // Some sanity checks to make sure it didn't screw the rest of the entry
@@ -37,8 +36,9 @@ class IntegrationTest extends TestCase
         $this->assertSame('authorssimple', $entries[0]['_type']);
 
         $this->assertSame(
-            trim(file_get_contents(__DIR__.'/../../resources/valid/authors-simple.bib')),
-            $entries[0]['_original'])
+            trim(file_get_contents(__DIR__ . '/../../resources/valid/authors-simple.bib')),
+            $entries[0]['_original'],
+        )
         ;
 
         $this->assertCount(1, $entries[0]['author']);

@@ -14,7 +14,7 @@ namespace RenanBr\BibTexParser;
 interface ListenerInterface
 {
     /**
-     * Called when an unit is found.
+     * Called when a unit is found.
      *
      * @param string $text    The original content of the unit found.
      *                        Escape character will not be sent.

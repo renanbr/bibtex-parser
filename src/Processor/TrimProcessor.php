@@ -25,10 +25,7 @@ class TrimProcessor
         }
     }
 
-    /**
-     * @return array
-     */
-    public function __invoke(array $entry)
+    public function __invoke(array $entry): array
     {
         $covered = $this->getCoveredTags(array_keys($entry));
         foreach ($covered as $tag) {
@@ -38,7 +35,7 @@ class TrimProcessor
         return $entry;
     }
 
-    private function trim($value)
+    private function trim(mixed $value): mixed
     {
         if (\is_array($value)) {
             $trimmed = [];

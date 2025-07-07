@@ -11,17 +11,16 @@
 
 namespace RenanBr\BibTexParser\Test\Processor;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use RenanBr\BibTexParser\Listener;
 use RenanBr\BibTexParser\Parser;
 use RenanBr\BibTexParser\Processor\KeywordsProcessor;
 
-/**
- * @covers \RenanBr\BibTexParser\Processor\KeywordsProcessor
- */
 class KeywordsProcessorTest extends TestCase
 {
-    public function testCommaAsSeparator()
+    public function testCommaAsSeparator(): void
     {
         $processor = new KeywordsProcessor();
         $entry = $processor([
@@ -31,7 +30,7 @@ class KeywordsProcessorTest extends TestCase
         $this->assertSame(['foo', 'bar'], $entry['keywords']);
     }
 
-    public function testSemicolonAsSeparator()
+    public function testSemicolonAsSeparator(): void
     {
         $processor = new KeywordsProcessor();
         $entry = $processor([
@@ -42,7 +41,7 @@ class KeywordsProcessorTest extends TestCase
     }
 
     /** @see https://github.com/retorquere/zotero-better-bibtex/issues/361 */
-    public function testCommaAsTagContent()
+    public function testCommaAsTagContent(): void
     {
         $processor = new KeywordsProcessor();
         $entry = $processor([
@@ -57,14 +56,14 @@ class KeywordsProcessorTest extends TestCase
         ], $entry['keywords']);
     }
 
-    public function testThroughListener()
+    public function testThroughListener(): void
     {
         $listener = new Listener();
         $listener->addProcessor(new KeywordsProcessor());
 
         $parser = new Parser();
         $parser->addListener($listener);
-        $parser->parseFile(__DIR__.'/../resources/valid/keywords-simple.bib');
+        $parser->parseFile(__DIR__ . '/../resources/valid/keywords-simple.bib');
 
         $entries = $listener->export();
 
@@ -74,8 +73,9 @@ class KeywordsProcessorTest extends TestCase
         $this->assertSame('keywordsSimple', $entries[0]['_type']);
 
         $this->assertSame(
-            trim(file_get_contents(__DIR__.'/../resources/valid/keywords-simple.bib')),
-            $entries[0]['_original'])
+            trim(file_get_contents(__DIR__ . '/../resources/valid/keywords-simple.bib')),
+            $entries[0]['_original'],
+        )
         ;
 
         $this->assertSame(['foo', 'bar'], $entries[0]['keywords']);
