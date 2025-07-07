@@ -15,7 +15,6 @@
 </p>
 
 ![Tests](https://github.com/renanbr/bibtex-parser/workflows/Tests/badge.svg)
-[![codecov](https://codecov.io/gh/renanbr/bibtex-parser/branch/master/graph/badge.svg)](https://codecov.io/gh/renanbr/bibtex-parser)
 ![Static Analysis](https://github.com/renanbr/bibtex-parser/workflows/Static%20Analysis/badge.svg)
 ![Coding Standards](https://github.com/renanbr/bibtex-parser/workflows/Coding%20Standards/badge.svg)
 

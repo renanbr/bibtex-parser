@@ -18,9 +18,6 @@ jobs:
             fail-fast: false
             matrix:
                 php-version: ['8.1', '8.2', '8.3', '8.4']
-                include:
-                    - php-version: 8.3
-                      coverage: true
 
         steps:
 
@@ -31,7 +28,6 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php-version }}
-                  coverage: ${{ matrix.coverage && 'pcov' || 'none' }}
 
             - name: Install pandoc
               uses: pandoc/actions/setup@v1
@@ -40,10 +36,4 @@ jobs:
               uses: ramsey/composer-install@v3
 
             - name: Run PHPUnit
-              run: vendor/bin/phpunit --testdox ${{ matrix.coverage && '--coverage-clover ./coverage.xml' || '--no-coverage' }}
-
-            - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v1
-              if: ${{ matrix.coverage }}
-              with:
-                  file: ./coverage.xml
+              run: vendor/bin/phpunit --testdox
