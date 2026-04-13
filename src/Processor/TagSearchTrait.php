@@ -18,7 +18,7 @@ trait TagSearchTrait
      *
      * The search performed is case-insensitive.
      */
-    protected function tagSearch(string $needle, array $haystack): string|null
+    protected function tagSearch(string $needle, array $haystack): ?string
     {
         foreach ($haystack as $actual) {
             if (0 === strcasecmp($needle, (string) $actual)) {
