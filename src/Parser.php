@@ -80,7 +80,7 @@ class Parser
         try {
             $this->reset();
             while (!feof($handle)) {
-                $buffer = fread($handle, 128);
+                $buffer = fgets($handle, 128);
                 $this->parse($buffer);
             }
             $this->throwExceptionIfReadingEntry("\0");
