@@ -35,6 +35,25 @@ class StringParsingTest extends TestCase
         $this->assertSame($listenerFile->calls, $listenerString->calls);
     }
 
+    public function testStringWithUnicode(): void
+    {
+        $file = __DIR__ . '/../resources/valid/utf8-encoded.bib';
+
+        $listener = new DummyListener();
+        $parser = new Parser();
+        $parser->addListener($listener);
+        $parser->parseFile($file);
+
+        $item = array_filter(
+            $listener->calls,
+            fn(array $call)
+                => $call[0] === 'An analysis of modern Ä usage in telephone books'
+                && $call[1] === 'braced_tag_content',
+        );
+
+        $this->assertCount(1, $item);
+    }
+
     /**
      * @return array<string, array<string>>
      */
@@ -45,6 +64,7 @@ class StringParsingTest extends TestCase
         return [
             'abbreviation' => [$dir . '/abbreviation.bib'],
             'basic' => [$dir . '/basic.bib'],
+            'utf8 encoded' => [$dir . '/utf8-encoded.bib'],
             'citation key' => [$dir . '/citation-key.bib'],
             'multiples entries' => [$dir . '/multiples-entries.bib'],
             'no value' => [$dir . '/no-tag-content.bib'],
